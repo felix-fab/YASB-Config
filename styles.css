@@ -296,21 +296,25 @@
 
 .cpu-widget .label {
     min-width: 40px;
+    background: rgba(0, 0, 0, 0.01);
     color: var(--main);
 }
 
 .memory-widget .label{
     min-width: 40px;
+    background: rgba(0, 0, 0, 0.01);
     color: var(--main);
 }
 
 .cpu-widget .icon {
     color: (--main);
     margin-right: 2px;
+    background: rgba(0, 0, 0, 0.01);
 }
 .memory-widget .icon {
     color: (--main);
     margin-right: 0px;
+    background: rgba(0, 0, 0, 0.01);
 }
 
 /* WORKSPACE Setting */
@@ -910,7 +914,7 @@
 .media-widget {
 	padding: 0;
 	margin: 0;
-    margin-right: 15px;
+    margin-right: 10px;
     border-radius: 0;
 }
 
@@ -918,10 +922,15 @@
     color: var(--mainLight);
     font-weight: bold;
     padding: 0px;
-    padding-left: 16px;
+    padding-left: 7px;
     font-size: 12px;
     max-width: 300px;
 }
+
+.media-widget .label:hover {
+    color: white;
+}
+
 .media-widget .btn {
 	color: var(--main);
 	padding:0 2px;
@@ -1055,18 +1064,6 @@
     color: var(--main);
 }
 
-/* bluetooth Settings */
-.bluetooth-widget .icon {
-	background: rgba(0, 0, 0, 0.01);
-}
-
-.bluetooth-widget .label {
-	background: rgba(0, 0, 0, 0.01);
-}
-.bluetooth-widget .label.alt {
-	background: rgba(0, 0, 0, 0.01);
-}
-
 /* Battery Settings */
 .battery-widget .widget-container {
     margin-right: 3px;
@@ -1114,4 +1111,19 @@
     max-height: 23px;
     margin-left: 12px;
     border-radius: 100px;
+}
+
+/* Bluetooth Settings */
+
+.bluetooth-widget {
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.bluetooth-widget .label {
+    font-weight: bold;
+}
+
+.bluetooth-widget .icon {
+    padding-top: 2px;
 }

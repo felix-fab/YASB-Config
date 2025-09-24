@@ -38,6 +38,7 @@ bars:
         [
           "active_window",
           "media_player",
+          "bluetooth",
           "battery",
         ]
 
@@ -69,6 +70,11 @@ widgets:
         label_alt: "{%A %d %B %Y %I:%M %p}"
         #timezones: ["Europe/London", "America/New_York"]
         timezones: []
+        label_shadow:
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
         callbacks:
           on_middle: "exec explorer.exe shell:Appsfolder\\Microsoft.WindowsAlarms_8wekyb3d8bbwe!App"
           on_right: "next_timezone"
@@ -90,6 +96,11 @@ widgets:
           - "\u2587" # 70%
           - "\u2588" # 80%+
         histogram_num_columns: 10
+        label_shadow:
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
         callbacks:
           on_right: "exec cmd /c Taskmgr"
 
@@ -102,8 +113,8 @@ widgets:
         label_shadow:
           enabled: true
           color: "black"
-          radius: 5
-          offset: [0, 0]
+          radius: 3
+          offset: [ 1, 1 ]
         callbacks:
           on_right: "exec cmd /c Taskmgr"
 
@@ -173,14 +184,13 @@ widgets:
         bottom: 0
         right: 0
       label_shadow:
-        enabled: true
-        color: "black"
-        radius: 3
-        offset: [ 1, 1 ]
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
       callbacks:
-        on_left: "toggle_play_pause"
-        on_middle: "toggle_label"
-        on_right: "toggle_media_menu"
+        on_left: "toggle_media_menu"
+        on_right: "toggle_play_pause"
 
   traffic:
     type: "yasb.traffic.TrafficWidget"
@@ -292,6 +302,11 @@ widgets:
         medium: 75
         high: 85
         full: 100
+      label_shadow:
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
 
   home:
     type: "yasb.home.HomeWidget"
@@ -350,5 +365,34 @@ widgets:
         bottom: 0
         right: 8
       label: "{data}"
+      label_shadow:
+          enabled: true
+          color: "black"
+          radius: 3
+          offset: [ 1, 1 ]
       app_list:
         - { icon: "Vivaldi", launch: "C:\\Users\\infof\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe" }
+
+  bluetooth:
+    type: "yasb.bluetooth.BluetoothWidget"
+    options:
+      label: "<span>{icon}</span> {device_count}"
+      label_alt: "<span>{icon}</span> {device_count}"
+      label_no_device: ""
+      label_device_separator: ", "
+      max_length: 10
+      max_length_ellipsis: "..."
+      icons: 
+        bluetooth_on: "\udb80\udcaf"
+        bluetooth_off: "\udb80\udcb2"
+        bluetooth_connected: "\udb80\udcb1"
+      device_aliases:
+        - name: "T5.0"
+          alias: "\uf025"
+      callbacks:
+        on_left: "exec cmd.exe /c start ms-settings:bluetooth"
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
