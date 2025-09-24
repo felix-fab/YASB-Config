@@ -16,11 +16,11 @@ bars:
       round_corners: false
       border_color: None
     window_flags:
-      always_on_top: false
+      always_on_top: true
       windows_app_bar: true
     dimensions:
       width: "100%"
-      height: 30
+      height: 35
     padding:
       top: 0
       left: 0
@@ -31,28 +31,36 @@ bars:
         [
           "cpu",
           "memory",
-          "taskbar"
+          "apps",
         ]
       center: ["clock"]
       right:
         [
+          "active_window",
           "media_player",
-          "volume",
-          "power_menu"
+          "battery",
         ]
 
 widgets:
   active_window:
     type: "yasb.active_window.ActiveWindowWidget"
     options:
-      label: "{win[title]}"
-      label_alt: "[class_name='{win[class_name]}' exe='{win[process][name]}' hwnd={win[hwnd]}]"
+      label: "{win[process][name]}"
+      label_alt: "{win[process][name]}"
       label_no_window: ""
-      max_length: 56
       label_icon: true
       label_icon_size: 16
-      max_length_ellipsis: ".."
+      max_length: 20
+      max_length_ellipsis: "..."
       monitor_exclusive: false
+      rewrite:
+        - pattern: "^(.+?)\\.[eE][xX][eE]$"
+          replacement: "\\1"
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
 
   clock:
       type: "yasb.clock.ClockWidget"
@@ -68,7 +76,7 @@ widgets:
   cpu:
       type: "yasb.cpu.CpuWidget"
       options:
-        label: "<span>\uf4bc</span> {info[percent][total]}%"
+        label: "<span>\uf2db</span> {info[percent][total]}%"
         label_alt: "<span>\uf437</span> {info[histograms][cpu_percent]}"
         update_interval: 1000
         histogram_icons:
@@ -88,9 +96,14 @@ widgets:
   memory:
       type: "yasb.memory.MemoryWidget"
       options:
-        label: "<span>\uf4bc</span> {virtual_mem_percent}%"
-        label_alt: "<span>\uf4bc</span> {virtual_mem_percent}%"
-        update_interval: 5000
+        label: "<span>\uefc5</span> {virtual_mem_percent}% <span class='MenuDivider'></span>"
+        label_alt: "<span>\uefc5</span> {virtual_mem_used} / {virtual_mem_total} <span class='MenuDivider'></span>"
+        update_interval: 1000
+        label_shadow:
+          enabled: true
+          color: "black"
+          radius: 5
+          offset: [0, 0]
         callbacks:
           on_right: "exec cmd /c Taskmgr"
 
@@ -105,52 +118,88 @@ widgets:
             on_middle: "do_nothing"
             on_right: "exec explorer C:\\" # Open disk C in file explorer
 
-  volume:
-      type: "yasb.volume.VolumeWidget"
-      options:
-        label: "<span>{icon}</span> {level}"
-        label_alt: "{volume}"
-        volume_icons:
-          - "\uea85"  # Icon for muted
-          - "\ue992"  # Icon for 0-10% volume
-          - "\ue993"  # Icon for 11-30% volume
-          - "\ue994"  # Icon for 31-60% volume
-          - "\ue995"  # Icon for 61-100% volume
-        callbacks:
-          # on_left: "exec quick_settings"
-          on_middle: "do_nothing"
-          on_right: "exec cmd.exe /c start ms-settings:sound"
-
   media_player:
-        type: "yasb.media.MediaWidget"
-        options:
-          label: "{title} - {artist}"
-          label_alt: "{title}"
-          max_field_size:
-            label: 20
-            label_alt: 30
-          show_thumbnail: true
-          controls_only: false
-          controls_left: true
-          hide_empty: true
-          thumbnail_alpha: 80
-          thumbnail_padding: 8
-          thumbnail_corner_radius: 7 # Set to 0 for square corners
-          icons:
-            prev_track: "\ue622"
-            next_track: "\ue623"
-            play: "\uf5b0"
-            pause: "\ue62e"
+    type: "yasb.media.MediaWidget"
+    options:
+      label: "{title}"
+      label_alt: "{title}"
+      max_field_size:
+        label: 20
+        label_alt: 0
+      show_thumbnail: false
+      controls_only: false
+      controls_left: true
+      hide_empty: true
+      thumbnail_alpha: 255
+      thumbnail_padding: 0
+      thumbnail_edge_fade: true
+      icons:
+        prev_track: "\uf048"
+        next_track: "\uf051"
+        play: "\uf04b"
+        pause: "\uf04c"
+      scrolling_label:
+        enabled: false
+        update_interval_ms: 30
+        style: "left"  # can be "left", "right", "bounce", "bounce-ease"
+        separator: " | "
+        label_padding: 1
+      # Easing curve params: https://www.desmos.com/calculator/j7eamemxzi
+        ease_slope: 20
+        ease_pos: 0.8
+        ease_min: 0.5
+      media_menu:
+        blur: true
+        round_corners: true
+        round_corners_type: "normal"
+        border_color: "system"
+        alignment: "right"
+        direction: "down"
+        offset_top: 6
+        offset_left: 60
+        thumbnail_corner_radius: 8
+        thumbnail_size: 120
+        max_title_size: 27
+        max_artist_size: 60
+        show_source: false
+      media_menu_icons:
+        prev_track: "\uf048"
+        next_track: "\uf051"
+        play: "\uf04b"
+        pause: "\uf04c"
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+      callbacks:
+        on_left: "toggle_play_pause"
+        on_middle: "toggle_label"
+        on_right: "toggle_media_menu"
 
   traffic:
-      type: "yasb.traffic.TrafficWidget"
-      options:
-        # can be: download_speed, download_justified, download_category, and same for upload
-        label: "\ueb01 \ueab4 {download_justified} | \ueab7 {upload_justified}"
-        label_alt: "\ueb01 \ueab4 {download_category} | \ueab7 {upload_category}"
-        update_interval: 1000 # Update interval should be a multiple of 1000
-        callbacks:
-          on_right: "exec cmd /c Taskmgr"
+    type: "yasb.traffic.TrafficWidget"
+    options:
+      label: "<span class='download'>\udb81\udf2e</span> <span class='download-text'>{download_speed}</span><span class='divider'>|</span><span class='upload-text'>{upload_speed}</span><span class='upload'>\udb81\udf37</span><span class='MenuDivider'></span>"
+      label_alt: "<span class='download'>\udb81\udf2e</span> <span class='download-text'>{download_speed}</span><span class='divider'>|</span><span class='upload-text'>{upload_speed}</span><span class='upload'>\udb81\udf37</span><span class='MenuDivider'></span>"
+      update_interval: 1000
+      callbacks:
+        on_right: "exec cmd /c Taskmgr"
+      container_padding:
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      label_shadow:
+        enabled: true
+        color: "black"
+        radius: 5
+        offset: [0, 0]
 
   power_menu:
       type: "yasb.power_menu.PowerMenuWidget"
@@ -200,7 +249,7 @@ widgets:
   taskbar:
     type: "yasb.taskbar.TaskbarWidget"
     options:
-      icon_size: 16
+      icon_size: 18
       tooltip: true
       show_only_visible: false
       strict_filtering: true
@@ -208,7 +257,7 @@ widgets:
       animation:
         enabled: true
       preview:
-        enabled: false
+        enabled: true
         width: 240
         delay: 400
         padding: 8
@@ -222,3 +271,84 @@ widgets:
         processes: []
         titles: []
         classes: []
+
+  battery:
+    type: "yasb.battery.BatteryWidget"
+    options:
+      label: "{icon} {percent}%"
+      label_alt: "{icon} {percent}% | Zeit: {time_remaining}"
+      charging_options:
+        icon_format: "{charging_icon}"
+      status_icons:
+        icon_charging: "\udb80\udc84"
+        icon_critical: "\udb80\udc7a"
+        icon_low: "\udb80\udc7b"
+        icon_medium: "\udb80\udc7e"
+        icon_high: "\udb80\udc80"
+        icon_full: "\udb80\udc79"
+      status_thresholds:
+        critical: 10
+        low: 45
+        medium: 75
+        high: 85
+        full: 100
+
+  home:
+    type: "yasb.home.HomeWidget"
+    options:
+      label: "<span>\udb80\udf5c</span>"
+      menu_list:
+      - { title: "Home", path: "~" }
+      - { title: "Downloads", path: "~\\Downloads"}
+      - { title: "Documents", path: "~\\Documents"}
+      - { title: "Pictures", path: "~\\Pictures"}
+      - { title: "Videos", path: "~\\Videos"}
+      system_menu: true
+      power_menu: false
+      blur: true
+      round_corners: true
+      round_corners_type: "normal"
+      border_color: ""
+      distance: 10
+      container_padding: 
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+      alignment: "left"
+      direction: "down"
+      menu_labels:
+        shutdown: "Shutdown"
+        restart: "Restart"
+        logout: "Logout"
+        lock: "Lock"
+        sleep: "Sleep"
+        system: "System Settings"
+        about: "About This PC"
+        task_manager: "Task Manager"
+
+  apps:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      container_padding:
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+      label: "{data}"
+      app_list:
+        - { icon: "Vivaldi", launch: "C:\\Users\\infof\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe" }
+        - { icon: "OneNote", launch: "C:\\Program Files\\Microsoft Office\\root\\Office16\\ONENOTE.EXE" }
+        - { icon: "Terminal", launch: "wt" }
+
+  taskbar_toggle:
+    type: "yasb.applications.ApplicationsWidget"
+    options:
+      container_padding:
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
+      label: "{data}"
+      app_list:
+        - { icon: "Vivaldi", launch: "C:\\Users\\infof\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe" }
