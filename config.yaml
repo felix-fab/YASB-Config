@@ -1,5 +1,6 @@
 watch_stylesheet: true
 watch_config: true
+debug: true
 
 bars:
   status-bar:
@@ -32,6 +33,7 @@ bars:
           "cpu",
           "memory",
           "apps",
+          "windows_workspaces",
         ]
       center: ["clock"]
       right:
@@ -352,9 +354,9 @@ widgets:
         right: 8
       label: "{data}"
       app_list:
-        - { icon: "Vivaldi", launch: "C:\\Users\\infof\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe" }
-        - { icon: "OneNote", launch: "C:\\Program Files\\Microsoft Office\\root\\Office16\\ONENOTE.EXE" }
-        - { icon: "Terminal", launch: "wt" }
+        - { icon: "Vivaldi", launch: 'C:\\Users\\infof\\.config\\yasb\\vivaldi_launcher.bat' }
+        - { icon: "OneNote", launch: 'C:\\Users\\infof\\.config\\yasb\\onenote_launcher.bat' }
+        - { icon: "Terminal", launch: 'C:\\Users\\infof\\.config\\yasb\\terminal_launcher.bat' }
 
   taskbar_toggle:
     type: "yasb.applications.ApplicationsWidget"
@@ -392,6 +394,17 @@ widgets:
       callbacks:
         on_left: "exec cmd.exe /c start ms-settings:bluetooth"
       label_shadow:
+        enabled: true
+        color: "black"
+        radius: 3
+        offset: [ 1, 1 ]
+
+  windows_workspaces:
+    type: "yasb.windows_desktops.WorkspaceWidget"
+    options:
+      label_workspace_btn: "\udb81\udc3d"
+      label_workspace_active_btn: "\udb81\udc3e"
+      btn_shadow:
         enabled: true
         color: "black"
         radius: 3

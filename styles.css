@@ -279,7 +279,7 @@
 
 .memory-widget .MenuDivider{
     max-width: 3px;
-    background: #70C4BD;
+    background: var(--main);
     max-height: 20px;
     margin-left: 6px;
     border-radius: 50%;
@@ -432,6 +432,7 @@
     margin: 0px;
     padding: 0px;
     padding-top: 1px;
+    margin-left: 4dvb;
 }
 
 .apps-widget .label {
@@ -439,7 +440,7 @@
     font-size: 13px;
     padding: 0 1px;
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 3px;
 }
 .apps-widget .label:hover {
     color: white;
@@ -952,8 +953,6 @@
 .media-menu .btn.pause {
     font-size: 20px;
 }
-.media-menu .btn.prev {}
-.media-menu .btn.next {}
 
 .media-widget .btn.disabled:hover,
 .media-widget .btn.disabled {
@@ -1107,14 +1106,13 @@
 
 .traffic-widget .MenuDivider{
     max-width: 3px;
-    background-color: #70C4BD;
+    background-color: var(--main);
     max-height: 23px;
     margin-left: 12px;
     border-radius: 100px;
 }
 
 /* Bluetooth Settings */
-
 .bluetooth-widget {
     margin-right: 10px;
     margin-left: 5px;
@@ -1126,4 +1124,80 @@
 
 .bluetooth-widget .icon {
     padding-top: 2px;
+}
+
+/* Windows-Desktop Settings */
+.windows-desktops {
+    padding: 0 0 0 0;
+}
+
+.windows-desktops .widget-container {
+    margin: 7px 0 4px 0;
+    border-radius: 12px;
+    border-radius: 50px;
+}
+
+.windows-desktops .ws-btn {
+    color: var(--main);
+    border: none;
+    font-size: 15px;
+    margin: 0 3px;
+    padding: 0 
+}
+
+.windows-desktops .ws-btn.active {
+    color: var(--mainLight);
+} 
+
+.windows-desktops .context-menu {
+    background-color:rgb(31, 39, 49);
+    border: none;
+    border-radius: 2px;
+    padding: 8px 0;
+}
+
+.windows-desktops .context-menu .menu-item {
+    padding: 6px 16px;
+}
+
+.windows-desktops .context-menu .menu-item:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: #ffffff;
+}
+
+.windows-desktops .context-menu .separator {
+    margin: 2px 0px 2px 0px;
+    height: 1px;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.windows-desktops .rename-dialog {
+    background-color: rgba(17, 17, 27, 0.75);   
+}
+
+.windows-desktops .rename-dialog QPushButton{
+    background-color:rgba(255,255,255,0.1);
+    color: #ffffff;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+
+.windows-desktops .rename-dialog QPushButton:hover{
+    background-color: #585858;
+    color: #ffffff;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+}
+ 
+.windows-desktops .rename-dialog QLabel {
+    color: #ffffff;
+}
+
+.windows-desktops .rename-dialog QLineEdit {
+    background-color: transparent;
+    border: 1px solid #89b4fa;
+    padding: 4px;
+    color: #ffffff;
 }
