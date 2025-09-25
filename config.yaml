@@ -86,7 +86,7 @@ widgets:
       options:
         label: "<span>\uf2db</span> {info[percent][total]}%"
         label_alt: "<span>\uf437</span> {info[histograms][cpu_percent]}"
-        update_interval: 1000
+        update_interval: 3000
         histogram_icons:
           - "\u2581" # 0%
           - "\u2581" # 10%
@@ -111,7 +111,7 @@ widgets:
       options:
         label: "<span>\uefc5</span> {virtual_mem_percent}% <span class='MenuDivider'></span>"
         label_alt: "<span>\uefc5</span> {virtual_mem_used} / {virtual_mem_total} <span class='MenuDivider'></span>"
-        update_interval: 1000
+        update_interval: 3000
         label_shadow:
           enabled: true
           color: "black"
